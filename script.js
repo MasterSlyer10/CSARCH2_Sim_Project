@@ -73,6 +73,12 @@ function simulateCache(numberOfMemoryBlocks, sequenceType) {
     }
     console.log(cache);
   }
+
+
+  // TO DO: ADD CODE TO CALCULATE THE OUTPUT I.E. CACHE HITS, MISSES, ETC.
+
+
+
 }
 
 
@@ -185,3 +191,6 @@ function replaceCacheBlock(cache, memoryBlock) {
     }
   }
 }
+
+
+// Implement GUI updating
