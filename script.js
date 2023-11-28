@@ -1,4 +1,18 @@
-function generateSequentialSequence(numOfMemoryBlocks) {
+// Text Boxes
+const memoryBlockInput = document.querySelector('#memoryBlockInput');
+
+
+// Buttons
+const sequentialSequenceButton = document.querySelector('#sequentialSequenceButton');
+const randomSequenceButton = document.querySelector('#randomSequenceButton');
+const midRepeatSequenceButton = document.querySelector('#midRepeatSequenceButton');
+const runFinal = document.querySelector('#runFinal');
+
+// Local variables
+let sequence = [];
+
+
+function generateSequentialSequence(numberOfMemoryBlocks) {
   const sequence = [];
   for (let i = 0; i < 4 * (2 * numberOfMemoryBlocks); i++) {
     sequence.push(i % (2 * numberOfMemoryBlocks));
@@ -34,16 +48,7 @@ function generateMidRepeatBlocks(numberOfMemoryBlocks) {
 
 // Function to be called when user presses `Final` button on the page that will simulate the cache to its final state immediately
 // 
-function simulateCache(numberOfMemoryBlocks, sequenceType) {
-
-  // Determine which sequence to use based on user input
-  if (sequenceType === 'sequential') {
-    const sequence = generateSequentialSequence(numberOfMemoryBlocks);
-  } else if (sequenceType === 'random') {
-    const sequence = generateRandomSequence(numberOfMemoryBlocks);
-  } else if (sequenceType === 'mid-repeat') {
-    const sequence = generateMidRepeatBlocks(numberOfMemoryBlocks);
-  }
+function simulateCache() {
 
   // Initialize cache
   const cache = initializeCache();
@@ -68,7 +73,7 @@ function simulateCache(numberOfMemoryBlocks, sequenceType) {
       // Cache miss
       console.log('Cache miss');
       cacheMissCount++;
-      replaceCacheLine(cache, memoryBlock);
+      replaceCacheBlock(cache, memoryBlock);
       
     }
     console.log(cache);
@@ -76,9 +81,6 @@ function simulateCache(numberOfMemoryBlocks, sequenceType) {
 
 
   // TO DO: ADD CODE TO CALCULATE THE OUTPUT I.E. CACHE HITS, MISSES, ETC.
-
-
-
 }
 
 
@@ -166,11 +168,28 @@ function replaceCacheBlock(cache, memoryBlock) {
     cacheSet[emptySlotIndex].tag = memoryBlock;
     cacheSet[emptySlotIndex].data = [];
 
+    // updates gui
+    const cellIdStore = `${setIndex}-${emptySlotIndex}-store`;
+    const cellIdAge = `${setIndex}-${emptySlotIndex}-age`;
+    const cellStore = document.getElementById(cellIdStore);
+    const cellAge = document.getElementById(cellIdAge);
+    if (cellStore) {
+      cellStore.textContent = cacheSet[emptySlotIndex].tag;
+      cellAge.textContent = cacheSet[emptySlotIndex].age;
+    }
+
     // increament age of all other blocks in set
     for (let i = 0; i < cacheSet.length; i++) {
       if (cacheSet[i].valid && i !== emptySlotIndex) {
         if (i !== emptySlotIndex ) {
           cacheSet[i].age++;
+          
+          // updates gui 
+          const cellId = `${setIndex}-${i}-age`;
+          const cell = document.getElementById(cellId);
+          if (cell) {
+            cell.textContent = cacheSet[i].age;
+          }
         }
       }
     }
@@ -183,10 +202,27 @@ function replaceCacheBlock(cache, memoryBlock) {
     cacheSet[maxAgeIndex].tag = memoryBlock;
     cacheSet[maxAgeIndex].data = [];
 
+    // updates gui
+    const cellIdStore = `${setIndex}-${maxAgeIndex}-store`;
+    const cellIdAge = `${setIndex}-${maxAgeIndex}-age`;
+    const cellStore = document.getElementById(cellIdStore);
+    const cellAge = document.getElementById(cellIdAge);
+    if (cellStore) {
+      cellStore.textContent = cacheSet[maxAgeIndex].tag;
+      cellAge.textContent = cacheSet[maxAgeIndex].age;
+    }
+
     // increment age of all other blocks in set
     for (let i = 0; i < cacheSet.length; i++) {
       if (i !== maxAgeIndex) {
         cacheSet[i].age++;
+
+        // updates gui 
+        const cellId = `${setIndex}-${i}-age`;
+        const cell = document.getElementById(cellId);
+        if (cell) {
+          cell.textContent = cacheSet[i].age;
+        }
       }
     }
   }
@@ -194,3 +230,42 @@ function replaceCacheBlock(cache, memoryBlock) {
 
 
 // Implement GUI updating
+sequentialSequenceButton.addEventListener('click', function() {
+  sequence = generateSequentialSequence(memoryBlockInput.value);
+  let lineDiv = document.querySelector('#line');
+  
+  lineDiv.innerHTML = '';
+  sequence.forEach(function(element) {
+    let aTag = document.createElement('a');
+    aTag.textContent = element;
+    lineDiv.appendChild(aTag);
+  });
+});
+
+randomSequenceButton.addEventListener('click', function() {
+  sequence = generateRandomSequence(memoryBlockInput.value);
+  let lineDiv = document.querySelector('#line');
+  
+  lineDiv.innerHTML = '';
+  sequence.forEach(function(element) {
+    let aTag = document.createElement('a');
+    aTag.textContent = element;
+    lineDiv.appendChild(aTag);
+  });
+});
+
+midRepeatSequenceButton.addEventListener('click', function() {
+  sequence = generateMidRepeatBlocks(memoryBlockInput.value);
+  let lineDiv = document.querySelector('#line');
+  
+  lineDiv.innerHTML = '';
+  sequence.forEach(function(element) {
+    let aTag = document.createElement('a');
+    aTag.textContent = element;
+    lineDiv.appendChild(aTag);
+  });
+});
+
+runFinal.addEventListener('click', function() {
+  simulateCache();
+});

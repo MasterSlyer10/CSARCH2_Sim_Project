@@ -221,29 +221,34 @@ h1 {
   align-items: normal;
 }
 
-#heading {
-  display: flex;
-  flex-direction: row;
-  width: 680px;
-  width: 55px;
-}
-
-#setHeading {
-  width: 80px;
-  height: 55px;
-  flex-shrink: 0;
+table {
+  border-collapse: collapse;
   border: 1px solid black;
-  display: flex;
-  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
-.table-header {
-  display: flex;
+thead th {
   width: 100px;
   height: 55px;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
   border: 1px solid black;
-  margin-right: -1px; /*  */
 }
+
+thead th:first-child {
+  width: 80px;
+}
+
+tbody td {
+  border: 1px solid black;
+  text-align: center;
+}
+
+tbody td {
+  border: 1px solid black;
+  text-align: center;
+}
+
+
