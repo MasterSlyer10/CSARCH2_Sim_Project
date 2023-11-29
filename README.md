@@ -1,7 +1,36 @@
-# CSARCH2_Sim_Project
-## Cache Simulation Project ##
-This project is a simulation of a cache system. It allows you to input the number of memory blocks and select a sequence type (sequential, random, or mid-repeat) to simulate cache hits and misses.
-# Getting Started ##
-To use this project, you will need to open the index.html file in a web browser. This will launch the cache simulation interface.
-# Usage ##
-Once the interface is open, you can input the number of memory blocks and select a sequence type using the buttons provided. Then, you can click the "Next Step" button to step through the simulation one memory access at a time, or click the "Final" button to run the simulation to completion. You can also click the "Clear Cache" button to reset the cache and start a new simulation.
+# Cache Simulation Project
+
+This project simulates a 4-way set associative cache memory system with FIFO replacement policy in a web browser environment using JavaScript.
+
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Overview
+
+This project provides a simulation of a 4-way set associative cache memory system with FIFO replacement policy. It allows users to visualize cache hits, misses, and the final cache state. The simulation includes a graphical user interface (GUI) to enhance user experience.
+
+## Features
+
+- Generate sequential, random, or custom memory access sequences.
+- Simulate cache hits and misses in a 4-way set associative cache with FIFO replacement policy.
+- Visualize the cache state in the GUI.
+
+## Getting Started
+
+### Prerequisites
+
+- Web browser (Chrome, Firefox, Safari, etc.)
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your-username/cache-simulation.git
