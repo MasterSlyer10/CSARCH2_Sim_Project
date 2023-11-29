@@ -105,12 +105,31 @@ function calculateAverageMemoryAccessTime(cacheHitRate, cacheMissRate,cacheHitTi
   return averageMemoryAccessTime;
 }
 
+function clearCellColors() {
+
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 4; j++) {
+      const cellIdBlock = `${i}-${j}-block`;
+      const cellIdAge = `${i}-${j}-age`;
+      const cellIdStore = `${i}-${j}-store`;
+      const cellBlock = document.getElementById(cellIdBlock);
+      const cellAge = document.getElementById(cellIdAge);
+      const cellStore = document.getElementById(cellIdStore);
+
+      cellBlock.style.backgroundColor = '#D9D9D9';
+      cellAge.style.backgroundColor = '#D9D9D9';
+      cellStore.style.backgroundColor = '#D9D9D9';
+    }
+  } 
+}
+
 
 function stepSimulateCache() {
   if (cache.length === 0) {
     initializeCache();
   }
   const memoryBlock = sequence.shift();
+  clearCellColors();
 
   console.log('Memory Block: ' + memoryBlock);
   memoryAccessCount++;
@@ -118,7 +137,7 @@ function stepSimulateCache() {
   if (cacheBlock !== null && cacheBlock.valid && cacheBlock.tag === memoryBlock) {
     // Cache hit
     console.log('Cache hit');
-    console.log('Set: ' + memoryBlock % 4 + ' Block: ' + cacheBlock.tag % 8);
+    console.log('Set: ' + memoryBlock % 8 + ' Block: ' + cacheBlock.tag % 4);
     cacheHitCount++;
     const hitCell = document.querySelector('#hit');
     hitCell.textContent += (hitCell.textContent ? ', ' : '') + memoryBlock;
@@ -133,14 +152,15 @@ function stepSimulateCache() {
   }
   updateValues();
   console.log(cache);
+
+  //updating parts gui
   let currentLinePosition = window.getComputedStyle(line).getPropertyValue('left');
   currentLinePosition = parseInt(currentLinePosition);
-  console.log(currentLinePosition);
   line.style.left = (currentLinePosition - 40) + 'px';
 }
 
 
-// Function returns an array that will serve as our cache. The array is 4 x 8, 4 sets, 8 blocks. (4-way BSA)
+// Function returns an array that will serve as our cache. The array is 8 x 4, 8 sets, 4 blocks. (4-way BSA)
 // Function sets up object for each block in the cache.
 // The object acts as a block in the cache and has the following properties:
 // - valid: boolean value that determines if the block is valid or not
@@ -157,9 +177,9 @@ class CacheBlock {
 
 function initializeCache() {
   cache = [];
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 8; i++) {
     cache.push([]);
-    for (let j = 0; j < 8; j++) {
+    for (let j = 0; j < 4; j++) {
       cache[i].push(new CacheBlock());
     }
   }
@@ -169,14 +189,25 @@ function initializeCache() {
 // else it returns null
 // Since cache is just a 2d array, we are just going to search each element until we find the block we are looking for.
 function getCacheBlock(cache, memoryBlock) {
-  const setIndex = memoryBlock % 4; // 4 sets in cache
+  const setIndex = memoryBlock % 8; // 8 sets in cache
 
   // check each block in the set to see if it matches the memory block we are looking for
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 4; i++) {
     // check if block has been used
     if (cache[setIndex][i].valid) {
       // check if block contains the memory block we are looking for
       if (cache[setIndex][i].tag === memoryBlock) {
+        const cellIdBlock = `${setIndex}-${i}-block`;
+        const cellIdAge = `${setIndex}-${i}-age`;
+        const cellIdStore = `${setIndex}-${i}-store`;
+        const cellBlock = document.getElementById(cellIdBlock);
+        const cellAge = document.getElementById(cellIdAge);
+        const cellStore = document.getElementById(cellIdStore);
+
+        cellBlock.style.backgroundColor = 'lightgreen';
+        cellAge.style.backgroundColor = 'lightgreen';
+        cellStore.style.backgroundColor = 'lightgreen';
+
         return cache[setIndex][i];
       }
     }
@@ -190,7 +221,7 @@ function getCacheBlock(cache, memoryBlock) {
 // Either places value in an empty block
 // Or replaces value of oldest block
 function replaceCacheBlock(cache, memoryBlock) {
-  const setIndex = memoryBlock % 4; // 4 sets in cache
+  const setIndex = memoryBlock % 8; // 8 sets in cache
   const cacheSet = cache[setIndex];
 
   // sentinel value for checking
@@ -223,11 +254,16 @@ function replaceCacheBlock(cache, memoryBlock) {
     cacheSet[emptySlotIndex].data = [];
 
     // updates gui
+    const cellIdBlock = `${setIndex}-${emptySlotIndex}-block`;
     const cellIdStore = `${setIndex}-${emptySlotIndex}-store`;
     const cellIdAge = `${setIndex}-${emptySlotIndex}-age`;
+    const cellBlock = document.getElementById(cellIdBlock);
     const cellStore = document.getElementById(cellIdStore);
     const cellAge = document.getElementById(cellIdAge);
     if (cellStore) {
+      cellBlock.style.backgroundColor = 'lightsalmon';
+      cellAge.style.backgroundColor = 'lightsalmon';
+      cellStore.style.backgroundColor = 'lightsalmon';
       cellStore.textContent = cacheSet[emptySlotIndex].tag;
       cellAge.textContent = cacheSet[emptySlotIndex].age;
     }
@@ -257,11 +293,17 @@ function replaceCacheBlock(cache, memoryBlock) {
     cacheSet[maxAgeIndex].data = [];
 
     // updates gui
+    const cellIdBlock = `${setIndex}-${maxAgeIndex}-block`;
     const cellIdStore = `${setIndex}-${maxAgeIndex}-store`;
     const cellIdAge = `${setIndex}-${maxAgeIndex}-age`;
+    const cellBlock = document.getElementById(cellIdBlock);
     const cellStore = document.getElementById(cellIdStore);
     const cellAge = document.getElementById(cellIdAge);
     if (cellStore) {
+      cellBlock.style.backgroundColor = 'lightcoral';
+      cellAge.style.backgroundColor = 'lightcoral';
+      cellStore.style.backgroundColor = 'lightcoral';
+
       cellStore.textContent = cacheSet[maxAgeIndex].tag;
       cellAge.textContent = cacheSet[maxAgeIndex].age;
     }
@@ -342,13 +384,14 @@ clearCache.addEventListener('click', function() {
   cacheHitCount = 0;
   cacheMissCount = 0;
 
+  clearCellColors();
   const hitCell = document.querySelector('#hit');
   hitCell.textContent = '';
   const missCell = document.querySelector('#miss');
   missCell.textContent = '';
 
-  for (let set = 0; set < 4; set++) {
-    for (let block = 0; block < 8; block++) {
+  for (let set = 0; set < 8; set++) {
+    for (let block = 0; block < 4; block++) {
       const td = document.getElementById(`${set}-${block}-age`);
       if (td) {
         td.textContent = '';
