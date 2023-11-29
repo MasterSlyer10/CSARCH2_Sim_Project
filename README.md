@@ -33,3 +33,7 @@ These metrics provide insights into the cache's performance and efficiency under
 
 The system generates a sequential sequence of memory blocks up to 2n cache blocks and repeats the sequence four times. The JavaScript function generateSequentialSequence(numberOfMemoryBlocks) accomplishes this by creating a sequence that repeats 4 times and contains numbers from 0 to 2n-1.
 
+### b) Random Sequence
+
+### c) Mid-Repeat Blocks
+
