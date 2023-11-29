@@ -34,7 +34,7 @@ These metrics provide insights into the cache's performance and efficiency under
 The system generates a sequential sequence of memory blocks up to 2n cache blocks and repeats the sequence four times. The JavaScript function generateSequentialSequence(numberOfMemoryBlocks) accomplishes this by creating a sequence that repeats 4 times and contains numbers from 0 to 2n-1.
 
 ### b) Random Sequence
-Given the 
+Given n = 32 which is the size of our cache, we are able to generate up to 128 memory accesses with randomized numbers. Due to the randomness of the sequence, the performance of the cache is not that predictable. As such the caclulation will differ from test case to test case. In this particular run we were able to achive a Hit Rate of 18.75%, with an average access time of 8.3125.
 
 ![Alt text](image.png)
 
