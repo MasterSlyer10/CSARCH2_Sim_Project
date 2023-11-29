@@ -1,10 +1,10 @@
 # Cache Simulation System
-This repository contains a cache simulation system implemented in JavaScript. The system is designed to simulate the behavior of a cache memory with a 4-way set-associative (4-way BSA) architecture.The cache simulation system includes functions for initializing the cache, simulating cache behavior, updating cache values, and calculating cache hit rate, cache miss rate, average memory access time, and total memory access time. The cache is represented as a 4 x 8 array, with each block in the cache having properties such as validity, age, and tag.
+This repository contains a cache simulation system implemented in JavaScript. The system is designed to simulate the behavior of a cache memory with a 4-way set-associative (4-way BSA) architecture.The cache simulation system includes functions for initializing the cache, simulating cache behavior, updating cache values, and calculating cache hit rate, cache miss rate, average memory access time, and total memory access time. The cache is represented as a 8 x 4 array, with each block in the cache having properties such as validity, age, and tag.
 The system also includes a graphical user interface (GUI) for interacting with the cache simulation, such as buttons for running the simulation, clearing the cache, and updating the cache values.
 
 ## Cache Specifications
 
-- **Cache Organization:** 4 sets, each containing 8 blocks (4 x 8).
+- **Cache Organization:** 8 sets, each containing 4 blocks (4 x 8).
 - **Replacement Policy:** FIFO (First In, First Out).
 - **Read Policy:** Non load-through.
 
@@ -34,6 +34,9 @@ These metrics provide insights into the cache's performance and efficiency under
 The system generates a sequential sequence of memory blocks up to 2n cache blocks and repeats the sequence four times. The JavaScript function generateSequentialSequence(numberOfMemoryBlocks) accomplishes this by creating a sequence that repeats 4 times and contains numbers from 0 to 2n-1.
 
 ### b) Random Sequence
+Given the 
+
+![Alt text](image.png)
 
 ### c) Mid-Repeat Blocks
 
