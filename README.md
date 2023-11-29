@@ -31,5 +31,5 @@ These metrics provide insights into the cache's performance and efficiency under
 
 ### a) Sequential Sequence
 
-The cache should exhibit a high hit rate in this scenario, as the access pattern is sequential and repeated. The age of blocks in the cache should increase gradually, and cache misses should be minimal.
+The system generates a sequential sequence of memory blocks up to 2n cache blocks and repeats the sequence four times. The JavaScript function generateSequentialSequence(numberOfMemoryBlocks) accomplishes this by creating a sequence that repeats 4 times and contains numbers from 0 to 2n-1.
 
