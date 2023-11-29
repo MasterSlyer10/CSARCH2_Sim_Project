@@ -99,8 +99,7 @@ function updateValues(){
   
 
 function calculateAverageMemoryAccessTime(cacheHitRate, cacheMissRate,cacheHitTime) {
-  const averageMemoryAccessTime =
-  cacheHitRate * cacheHitTime + cacheMissRate * (cacheHitTime + cacheMissPenalty);
+  const averageMemoryAccessTime = (cacheHitCount/memoryAccessCount) * cacheHitTime + (cacheMissCount/memoryAccessCount) * cacheMissPenalty;
 
   return averageMemoryAccessTime;
 }
