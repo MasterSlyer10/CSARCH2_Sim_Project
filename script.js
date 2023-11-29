@@ -105,12 +105,31 @@ function calculateAverageMemoryAccessTime(cacheHitRate, cacheMissRate,cacheHitTi
   return averageMemoryAccessTime;
 }
 
+function clearCellColors() {
+
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 4; j++) {
+      const cellIdBlock = `${i}-${j}-block`;
+      const cellIdAge = `${i}-${j}-age`;
+      const cellIdStore = `${i}-${j}-store`;
+      const cellBlock = document.getElementById(cellIdBlock);
+      const cellAge = document.getElementById(cellIdAge);
+      const cellStore = document.getElementById(cellIdStore);
+
+      cellBlock.style.backgroundColor = '#D9D9D9';
+      cellAge.style.backgroundColor = '#D9D9D9';
+      cellStore.style.backgroundColor = '#D9D9D9';
+    }
+  } 
+}
+
 
 function stepSimulateCache() {
   if (cache.length === 0) {
     initializeCache();
   }
   const memoryBlock = sequence.shift();
+  clearCellColors();
 
   console.log('Memory Block: ' + memoryBlock);
   memoryAccessCount++;
@@ -132,8 +151,9 @@ function stepSimulateCache() {
     
   }
   updateValues();
-  //moving gui
   console.log(cache);
+
+  //updating parts gui
   let currentLinePosition = window.getComputedStyle(line).getPropertyValue('left');
   currentLinePosition = parseInt(currentLinePosition);
   line.style.left = (currentLinePosition - 40) + 'px';
@@ -177,6 +197,17 @@ function getCacheBlock(cache, memoryBlock) {
     if (cache[setIndex][i].valid) {
       // check if block contains the memory block we are looking for
       if (cache[setIndex][i].tag === memoryBlock) {
+        const cellIdBlock = `${setIndex}-${i}-block`;
+        const cellIdAge = `${setIndex}-${i}-age`;
+        const cellIdStore = `${setIndex}-${i}-store`;
+        const cellBlock = document.getElementById(cellIdBlock);
+        const cellAge = document.getElementById(cellIdAge);
+        const cellStore = document.getElementById(cellIdStore);
+
+        cellBlock.style.backgroundColor = 'lightgreen';
+        cellAge.style.backgroundColor = 'lightgreen';
+        cellStore.style.backgroundColor = 'lightgreen';
+
         return cache[setIndex][i];
       }
     }
@@ -223,11 +254,16 @@ function replaceCacheBlock(cache, memoryBlock) {
     cacheSet[emptySlotIndex].data = [];
 
     // updates gui
+    const cellIdBlock = `${setIndex}-${emptySlotIndex}-block`;
     const cellIdStore = `${setIndex}-${emptySlotIndex}-store`;
     const cellIdAge = `${setIndex}-${emptySlotIndex}-age`;
+    const cellBlock = document.getElementById(cellIdBlock);
     const cellStore = document.getElementById(cellIdStore);
     const cellAge = document.getElementById(cellIdAge);
     if (cellStore) {
+      cellBlock.style.backgroundColor = 'lightsalmon';
+      cellAge.style.backgroundColor = 'lightsalmon';
+      cellStore.style.backgroundColor = 'lightsalmon';
       cellStore.textContent = cacheSet[emptySlotIndex].tag;
       cellAge.textContent = cacheSet[emptySlotIndex].age;
     }
@@ -257,11 +293,17 @@ function replaceCacheBlock(cache, memoryBlock) {
     cacheSet[maxAgeIndex].data = [];
 
     // updates gui
+    const cellIdBlock = `${setIndex}-${maxAgeIndex}-block`;
     const cellIdStore = `${setIndex}-${maxAgeIndex}-store`;
     const cellIdAge = `${setIndex}-${maxAgeIndex}-age`;
+    const cellBlock = document.getElementById(cellIdBlock);
     const cellStore = document.getElementById(cellIdStore);
     const cellAge = document.getElementById(cellIdAge);
     if (cellStore) {
+      cellBlock.style.backgroundColor = 'lightcoral';
+      cellAge.style.backgroundColor = 'lightcoral';
+      cellStore.style.backgroundColor = 'lightcoral';
+
       cellStore.textContent = cacheSet[maxAgeIndex].tag;
       cellAge.textContent = cacheSet[maxAgeIndex].age;
     }
@@ -342,13 +384,14 @@ clearCache.addEventListener('click', function() {
   cacheHitCount = 0;
   cacheMissCount = 0;
 
+  clearCellColors();
   const hitCell = document.querySelector('#hit');
   hitCell.textContent = '';
   const missCell = document.querySelector('#miss');
   missCell.textContent = '';
 
-  for (let set = 0; set < 4; set++) {
-    for (let block = 0; block < 8; block++) {
+  for (let set = 0; set < 8; set++) {
+    for (let block = 0; block < 4; block++) {
       const td = document.getElementById(`${set}-${block}-age`);
       if (td) {
         td.textContent = '';
