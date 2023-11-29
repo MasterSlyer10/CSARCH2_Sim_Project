@@ -208,6 +208,14 @@ h1 {
   font-size: 15px;
 }
 
+#hit {
+  background-color: lightgreen;
+}
+
+#miss {
+  background-color: lightcoral;
+}
+
 #resultsDisplayContainer {
   width: 400px;
   height: 405px;
@@ -260,13 +268,22 @@ table {
   border: 1px solid black;
 }
 
-#cacheTable thead th:first-child {
-  width: 80px;
+#cacheTable thead th:first-child,
+#cacheTable thead th:nth-child(5) {
+  width: 40px;
 }
 
 tbody td {
   border: 1px solid black;
   text-align: center;
+}
+
+#set0, #set2, #set4, #set6 {
+  background-color:lightyellow;
+}
+
+#set1, #set3, #set5, #set7 {
+  background-color:lightblue;
 }
 
 

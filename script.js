@@ -118,7 +118,7 @@ function stepSimulateCache() {
   if (cacheBlock !== null && cacheBlock.valid && cacheBlock.tag === memoryBlock) {
     // Cache hit
     console.log('Cache hit');
-    console.log('Set: ' + memoryBlock % 4 + ' Block: ' + cacheBlock.tag % 8);
+    console.log('Set: ' + memoryBlock % 8 + ' Block: ' + cacheBlock.tag % 4);
     cacheHitCount++;
     const hitCell = document.querySelector('#hit');
     hitCell.textContent += (hitCell.textContent ? ', ' : '') + memoryBlock;
@@ -132,15 +132,15 @@ function stepSimulateCache() {
     
   }
   updateValues();
+  //moving gui
   console.log(cache);
   let currentLinePosition = window.getComputedStyle(line).getPropertyValue('left');
   currentLinePosition = parseInt(currentLinePosition);
-  console.log(currentLinePosition);
   line.style.left = (currentLinePosition - 40) + 'px';
 }
 
 
-// Function returns an array that will serve as our cache. The array is 4 x 8, 4 sets, 8 blocks. (4-way BSA)
+// Function returns an array that will serve as our cache. The array is 8 x 4, 8 sets, 4 blocks. (4-way BSA)
 // Function sets up object for each block in the cache.
 // The object acts as a block in the cache and has the following properties:
 // - valid: boolean value that determines if the block is valid or not
@@ -157,9 +157,9 @@ class CacheBlock {
 
 function initializeCache() {
   cache = [];
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 8; i++) {
     cache.push([]);
-    for (let j = 0; j < 8; j++) {
+    for (let j = 0; j < 4; j++) {
       cache[i].push(new CacheBlock());
     }
   }
@@ -169,10 +169,10 @@ function initializeCache() {
 // else it returns null
 // Since cache is just a 2d array, we are just going to search each element until we find the block we are looking for.
 function getCacheBlock(cache, memoryBlock) {
-  const setIndex = memoryBlock % 4; // 4 sets in cache
+  const setIndex = memoryBlock % 8; // 8 sets in cache
 
   // check each block in the set to see if it matches the memory block we are looking for
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 4; i++) {
     // check if block has been used
     if (cache[setIndex][i].valid) {
       // check if block contains the memory block we are looking for
@@ -190,7 +190,7 @@ function getCacheBlock(cache, memoryBlock) {
 // Either places value in an empty block
 // Or replaces value of oldest block
 function replaceCacheBlock(cache, memoryBlock) {
-  const setIndex = memoryBlock % 4; // 4 sets in cache
+  const setIndex = memoryBlock % 8; // 8 sets in cache
   const cacheSet = cache[setIndex];
 
   // sentinel value for checking
