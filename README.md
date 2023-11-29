@@ -25,3 +25,10 @@ The simulation calculates the following metrics:
 - Total Memory Access Time
 
 These metrics provide insights into the cache's performance and efficiency under different access patterns.
+
+## Test Case Analysis
+
+### a) Sequential Sequence
+
+The cache should exhibit a high hit rate in this scenario, as the access pattern is sequential and repeated. The age of blocks in the cache should increase gradually, and cache misses should be minimal.
+
