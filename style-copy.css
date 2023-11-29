@@ -28,7 +28,9 @@ h1 {
 
 #simInformation {
   width: 470px;
-  height: 102px;
+  height: auto;
+  min-height: 102px;
+  padding: 5px 0 5px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -106,6 +108,10 @@ h1 {
   cursor: pointer;
 }
 
+#clearCache {
+  margin: 20px;
+}
+
 
 /* midPanel and elements inside it */
 #midPanel {
@@ -151,9 +157,10 @@ h1 {
 }
 
 #line {
-  width: 100%;
+  width: auto;
   position: absolute;
   left: calc(50% - 20px);
+  white-space: nowrap;
 }
 
 #line a {
@@ -195,13 +202,20 @@ h1 {
 #hitMissTableContainer {
   width: 400px;
   height: 357px;
+}
 
+#hitMissTableContainer td {
+  font-size: 15px;
 }
 
 #resultsDisplayContainer {
   width: 400px;
   height: 405px;
+}
 
+#resultsTable td {
+  width: 50%;
+  height: auto;
 }
 
 
@@ -228,7 +242,16 @@ table {
   height: 100%;
 }
 
-thead th {
+#hitMissTable thead th {
+  width: 200px;
+  height: 50px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+}
+
+#cacheTable thead th {
   width: 100px;
   height: 55px;
   flex-shrink: 0;
@@ -237,13 +260,8 @@ thead th {
   border: 1px solid black;
 }
 
-thead th:first-child {
+#cacheTable thead th:first-child {
   width: 80px;
-}
-
-tbody td {
-  border: 1px solid black;
-  text-align: center;
 }
 
 tbody td {

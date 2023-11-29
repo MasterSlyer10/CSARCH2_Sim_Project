@@ -14,6 +14,7 @@
         <p>Cache blocks = 32 blocks</p>
         <p>Cache line = 16 words</p>
         <p>Read Policy: Non Load-through</p>
+        <p>Type of Cache Memory: 4-way BSA, FIFO</p>
       </div>
       <div id="simInputs">
         <div id="memoryBlockContainer">
@@ -32,6 +33,7 @@
         <button id="runStep" class="container run-button">Next Step</button>
         <button id="runFinal" class="container run-button">Final</button>
       </div>
+      <button id="clearCache" class="container run-button">Clear Cache</button>
     </div>
   
     <div id="midPanel">
@@ -44,16 +46,60 @@
         </div>
       </div>
       <div id="hitMissTableContainer" class="container">
-
+        <table id="hitMissTable">
+          <thead>
+            <tr>
+              <th>Hit</th>
+              <th>Miss</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="hit"></td>
+              <td id="miss"></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div id="resultsDisplayContainer" class="container">
-
+        <table id="resultsTable">
+          <tbody>
+            <tr>
+              <td>Memory Access Count:</td>
+              <td id="memoryAccessCount"></td>
+            </tr>
+            <tr>
+              <td>Cache Hit Count:</td>
+              <td id="cacheHit"></td>
+            </tr>
+            <tr>
+              <td>Cache Miss Count:</td>
+              <td id="cacheMiss"></td>
+            </tr>
+            <tr>
+              <td>Cache Hit Rate:</td>
+              <td id="cacheHitRate"></td>
+            </tr>
+            <tr>
+              <td>Cache Miss Rate:</td>
+              <td id="cacheMissRate"></td>
+            </tr>
+            <tr>
+              <td>Average Memory Access Time:</td>
+              <td id="avgMemorryAccessTime"></td>
+            </tr>
+            <tr>
+              <td>Total Memory Access Time:</td>
+              <td id="totalMemorryAccessTime"></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
     <div id="rightPanel">
       <div id="cacheSnapshotContainer" class="container">
-      <table>
+      <table id="cacheTable">
           <thead>
             <tr>
               <th>Set</th>

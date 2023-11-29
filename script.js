@@ -1,3 +1,6 @@
+// Divs
+const line = document.querySelector('#line');
+
 // Text Boxes
 const memoryBlockInput = document.querySelector('#memoryBlockInput');
 
@@ -6,10 +9,18 @@ const memoryBlockInput = document.querySelector('#memoryBlockInput');
 const sequentialSequenceButton = document.querySelector('#sequentialSequenceButton');
 const randomSequenceButton = document.querySelector('#randomSequenceButton');
 const midRepeatSequenceButton = document.querySelector('#midRepeatSequenceButton');
+const runStep = document.querySelector('#runStep');
 const runFinal = document.querySelector('#runFinal');
+const clearCache = document.querySelector('#clearCache');
 
 // Local variables
 let sequence = [];
+let memoryAccessCount = 0;
+let cacheHitCount = 0;
+let cacheMissCount = 0;
+let cache = [];
+
+// window.addEventListener('load', initializeCache());
 
 
 function generateSequentialSequence(numberOfMemoryBlocks) {
@@ -48,39 +59,78 @@ function generateMidRepeatBlocks(numberOfMemoryBlocks) {
 
 // Function to be called when user presses `Final` button on the page that will simulate the cache to its final state immediately
 // 
-function simulateCache() {
+function fullSimulateCache() {
+  if (cache.length === 0) {
+    initializeCache();
+  }
+  sequenceLength = sequence.length;
+  for (i = 0; i < sequenceLength; i++) {
+    const memoryBlock = sequence.shift();
 
-  // Initialize cache
-  const cache = initializeCache();
-
-  // Initialize variables to keep track of cache hits and misses
-  let memoryAccessCount = 0;
-  let cacheHitCount = 0;
-  let cacheMissCount = 0;
-
-  // Simulate cache access for each memory block in the sequence
-  for (const memoryBlock of sequence) {
     console.log('Memory Block: ' + memoryBlock);
     memoryAccessCount++;
-    const cacheBlock = getCacheBlock(cache, memoryBlock);
-
+    const cacheBlock = getCacheBlock(cache, memoryBlock);    
     if (cacheBlock !== null && cacheBlock.valid && cacheBlock.tag === memoryBlock) {
       // Cache hit
       console.log('Cache hit');
       console.log('Set: ' + memoryBlock % 4 + ' Block: ' + cacheBlock.tag % 8);
       cacheHitCount++;
+      const hitCell = document.querySelector('#hit');
+      hitCell.textContent += (hitCell.textContent ? ', ' : '') + memoryBlock;
     } else {
       // Cache miss
       console.log('Cache miss');
       cacheMissCount++;
       replaceCacheBlock(cache, memoryBlock);
+      const missCell = document.querySelector('#miss');
+      missCell.textContent += (missCell.textContent ? ', ' : '') + memoryBlock;
       
     }
+
     console.log(cache);
+    let currentLinePosition = window.getComputedStyle(line).getPropertyValue('left');
+    currentLinePosition = parseInt(currentLinePosition);
+    console.log(currentLinePosition);
+    line.style.left = (currentLinePosition - 40) + 'px';
+
+    
   }
 
 
   // TO DO: ADD CODE TO CALCULATE THE OUTPUT I.E. CACHE HITS, MISSES, ETC.
+}
+
+function stepSimulateCache() {
+  if (cache.length === 0) {
+    initializeCache();
+  }
+  const memoryBlock = sequence.shift();
+
+  console.log('Memory Block: ' + memoryBlock);
+  memoryAccessCount++;
+  const cacheBlock = getCacheBlock(cache, memoryBlock);    
+  if (cacheBlock !== null && cacheBlock.valid && cacheBlock.tag === memoryBlock) {
+    // Cache hit
+    console.log('Cache hit');
+    console.log('Set: ' + memoryBlock % 4 + ' Block: ' + cacheBlock.tag % 8);
+    cacheHitCount++;
+    const hitCell = document.querySelector('#hit');
+    hitCell.textContent += (hitCell.textContent ? ', ' : '') + memoryBlock;
+  } else {
+    // Cache miss
+    console.log('Cache miss');
+    cacheMissCount++;
+    replaceCacheBlock(cache, memoryBlock);
+    const missCell = document.querySelector('#miss');
+    missCell.textContent += (missCell.textContent ? ', ' : '') + memoryBlock;
+    
+  }
+
+  console.log(cache);
+  let currentLinePosition = window.getComputedStyle(line).getPropertyValue('left');
+  currentLinePosition = parseInt(currentLinePosition);
+  console.log(currentLinePosition);
+  line.style.left = (currentLinePosition - 40) + 'px';
 }
 
 
@@ -100,14 +150,13 @@ class CacheBlock {
 }
 
 function initializeCache() {
-  const cache = [];
+  cache = [];
   for (let i = 0; i < 4; i++) {
     cache.push([]);
     for (let j = 0; j < 8; j++) {
       cache[i].push(new CacheBlock());
     }
   }
-  return cache;
 }
 
 // Function returns the block object in the cache if it is found
@@ -118,7 +167,6 @@ function getCacheBlock(cache, memoryBlock) {
 
   // check each block in the set to see if it matches the memory block we are looking for
   for (let i = 0; i < 8; i++) {
-    console.log(i);
     // check if block has been used
     if (cache[setIndex][i].valid) {
       // check if block contains the memory block we are looking for
@@ -228,44 +276,81 @@ function replaceCacheBlock(cache, memoryBlock) {
   }
 }
 
+function resetLinePosition() {
+  line.style.left = 'calc(50% - 20px)';
+}
+
 
 // Implement GUI updating
 sequentialSequenceButton.addEventListener('click', function() {
   sequence = generateSequentialSequence(memoryBlockInput.value);
-  let lineDiv = document.querySelector('#line');
   
-  lineDiv.innerHTML = '';
+  line.innerHTML = '';
   sequence.forEach(function(element) {
     let aTag = document.createElement('a');
     aTag.textContent = element;
-    lineDiv.appendChild(aTag);
+    line.appendChild(aTag);
   });
+  resetLinePosition();
 });
 
 randomSequenceButton.addEventListener('click', function() {
   sequence = generateRandomSequence(memoryBlockInput.value);
-  let lineDiv = document.querySelector('#line');
+
   
-  lineDiv.innerHTML = '';
+  line.innerHTML = '';
   sequence.forEach(function(element) {
     let aTag = document.createElement('a');
     aTag.textContent = element;
-    lineDiv.appendChild(aTag);
+    line.appendChild(aTag);
   });
+  resetLinePosition();
 });
 
 midRepeatSequenceButton.addEventListener('click', function() {
   sequence = generateMidRepeatBlocks(memoryBlockInput.value);
-  let lineDiv = document.querySelector('#line');
   
-  lineDiv.innerHTML = '';
+  line.innerHTML = '';
   sequence.forEach(function(element) {
     let aTag = document.createElement('a');
     aTag.textContent = element;
-    lineDiv.appendChild(aTag);
+    line.appendChild(aTag);
   });
+  resetLinePosition();
 });
 
+runStep.addEventListener('click', function() {
+  stepSimulateCache();
+})
+
 runFinal.addEventListener('click', function() {
-  simulateCache();
+  fullSimulateCache();
+});
+
+
+
+clearCache.addEventListener('click', function() {
+  cache = [];
+
+  memoryAccessCount = 0;
+  cacheHitCount = 0;
+  cacheMissCount = 0;
+
+  const hitCell = document.querySelector('#hit');
+  hitCell.textContent = '';
+  const missCell = document.querySelector('#miss');
+  missCell.textContent = '';
+
+  for (let set = 0; set < 4; set++) {
+    for (let block = 0; block < 8; block++) {
+      const td = document.getElementById(`${set}-${block}-age`);
+      if (td) {
+        td.textContent = '';
+      }
+      const storeTd = document.getElementById(`${set}-${block}-store`);
+      if (storeTd) {
+        storeTd.textContent = '';
+      }
+    }
+  }
 });
