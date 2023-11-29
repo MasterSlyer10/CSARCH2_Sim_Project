@@ -83,16 +83,33 @@ function fullSimulateCache() {
   const totalMemoryAccessTime = memoryAccessCount * averageMemoryAccessTime;
 
   // Log or display the results as needed
-  console.log('Memory Access Count: ' + memoryAccessCount);
-  console.log('Cache Hit Count: ' + cacheHitCount);
-  console.log('Cache Miss Count: ' + cacheMissCount);
-  console.log('Cache Hit Rate: ' + cacheHitRate.toFixed(2) + '%');
-  console.log('Cache Miss Rate: ' + cacheMissRate.toFixed(2) + '%');
-  console.log('Average Memory Access Time: ' + averageMemoryAccessTime + ' time units');
-  console.log('Total Memory Access Time: ' + totalMemoryAccessTime + ' time units');
+  // console.log('Memory Access Count: ' + memoryAccessCount);
+  // console.log('Cache Hit Count: ' + cacheHitCount);
+  // console.log('Cache Miss Count: ' + cacheMissCount);
+  // console.log('Cache Hit Rate: ' + cacheHitRate.toFixed(2) + '%');
+  // console.log('Cache Miss Rate: ' + cacheMissRate.toFixed(2) + '%');
+  // console.log('Average Memory Access Time: ' + averageMemoryAccessTime + ' time units');
+  // console.log('Total Memory Access Time: ' + totalMemoryAccessTime + ' time units');
+  updateValues();
 }
 
-function calculateAverageMemoryAccessTime() {
+function updateValues(){
+  const cacheHitRate = (cacheHitCount / memoryAccessCount) * 100;
+  const cacheMissRate = (cacheMissCount / memoryAccessCount) * 100;
+  const averageMemoryAccessTime = calculateAverageMemoryAccessTime(cacheHitRate, cacheMissRate,cacheHitTime);
+  const totalMemoryAccessTime = memoryAccessCount * averageMemoryAccessTime
+  document.getElementById('memoryAccessCount').textContent = memoryAccessCount;
+  document.getElementById('cacheHit').textContent = cacheHitCount;
+  document.getElementById('cacheMiss').textContent = cacheMissCount;
+  document.getElementById('cacheHitRate').textContent = cacheHitRate.toFixed(2) + '%';
+  document.getElementById('cacheMissRate').textContent = cacheMissRate.toFixed(2) + '%';
+  document.getElementById('avgMemorryAccessTime').textContent = averageMemoryAccessTime + ' time units';
+  document.getElementById('totalMemorryAccessTime').textContent = totalMemoryAccessTime + ' time units';
+}
+
+  
+
+function calculateAverageMemoryAccessTime(cacheHitRate, cacheMissRate,cacheHitTime) {
   const averageMemoryAccessTime =
   cacheHitRate * cacheHitTime + cacheMissRate * (cacheHitTime + cacheMissPenalty);
 
@@ -125,7 +142,7 @@ function stepSimulateCache() {
     missCell.textContent += (missCell.textContent ? ', ' : '') + memoryBlock;
     
   }
-
+  updateValues();
   console.log(cache);
   let currentLinePosition = window.getComputedStyle(line).getPropertyValue('left');
   currentLinePosition = parseInt(currentLinePosition);
@@ -353,4 +370,5 @@ clearCache.addEventListener('click', function() {
       }
     }
   }
+  updateValues();
 });
