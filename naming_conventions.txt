@@ -1,0 +1,12 @@
+HTML and CSS
+ids = camelCase
+class = kebab-case
+tab size = 2 spaces
+use double quotes instead of single
+id first then class
+
+JS
+var name = camelCase
+tab size = 2 spaces
+use double quotes instead of single
+
