@@ -5,7 +5,7 @@ The system also includes a graphical user interface (GUI) for interacting with t
 ## Cache Specifications
 
 - **Cache Organization:** 4 sets, each containing 8 blocks (4 x 8).
-- **Replacement Policy:** LRU (Least Recently Used).
+- **Replacement Policy:** FIFO (First In, First Out).
 - **Read Policy:** Non load-through.
 
 ## Running the Simulation
