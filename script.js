@@ -35,6 +35,7 @@ function generateSequentialSequence(numberOfMemoryBlocks) {
 function generateRandomSequence(numberOfMemoryBlocks) {
   const sequence = [];
   for (let i = 0; i < 4 * numberOfMemoryBlocks; i++) {
+    // random value between 0 and 4 * numberOfMemoryBlocks
     sequence.push(Math.floor(Math.random() * (4 * numberOfMemoryBlocks)));
   }
 
@@ -44,10 +45,13 @@ function generateRandomSequence(numberOfMemoryBlocks) {
 function generateMidRepeatBlocks(numberOfMemoryBlocks) {
   const sequence = [];
   for (let i = 0; i < 4 * (2 * numberOfMemoryBlocks); i++) {
+    // check if i is neither equal to to 0 or numberofMemoryBlocks - 1.
     if (i % (2 * numberOfMemoryBlocks) > 0 && i % (2 * numberOfMemoryBlocks) < (numberOfMemoryBlocks - 1)) {
+      // when true we go ahead and add the sequence of numbers from 1 to numberOfMemoryBlocks - 2, 2 times.
       for (let j = 0; j < (numberOfMemoryBlocks - 2) * 2; j++) {
         sequence.push((j % (numberOfMemoryBlocks - 2)) + 1);
       }
+      // sets i to numberOfMemoryBlcosk so that we can continue the sequence. and not enther this if condition again until much later.
       i = i + numberOfMemoryBlocks - 3;
     } else {
       sequence.push(i % (2 * numberOfMemoryBlocks));
@@ -65,35 +69,7 @@ function fullSimulateCache() {
   }
   sequenceLength = sequence.length;
   for (i = 0; i < sequenceLength; i++) {
-    const memoryBlock = sequence.shift();
-
-    console.log('Memory Block: ' + memoryBlock);
-    memoryAccessCount++;
-    const cacheBlock = getCacheBlock(cache, memoryBlock);    
-    if (cacheBlock !== null && cacheBlock.valid && cacheBlock.tag === memoryBlock) {
-      // Cache hit
-      console.log('Cache hit');
-      console.log('Set: ' + memoryBlock % 4 + ' Block: ' + cacheBlock.tag % 8);
-      cacheHitCount++;
-      const hitCell = document.querySelector('#hit');
-      hitCell.textContent += (hitCell.textContent ? ', ' : '') + memoryBlock;
-    } else {
-      // Cache miss
-      console.log('Cache miss');
-      cacheMissCount++;
-      replaceCacheBlock(cache, memoryBlock);
-      const missCell = document.querySelector('#miss');
-      missCell.textContent += (missCell.textContent ? ', ' : '') + memoryBlock;
-      
-    }
-
-    console.log(cache);
-    let currentLinePosition = window.getComputedStyle(line).getPropertyValue('left');
-    currentLinePosition = parseInt(currentLinePosition);
-    console.log(currentLinePosition);
-    line.style.left = (currentLinePosition - 40) + 'px';
-
-    
+    stepSimulateCache();
   }
 
 
