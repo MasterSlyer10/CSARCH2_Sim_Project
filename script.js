@@ -18,6 +18,10 @@ let sequence = [];
 let memoryAccessCount = 0;
 let cacheHitCount = 0;
 let cacheMissCount = 0;
+let cacheHitRate;
+let cacheMissRate; 
+let cacheHitTime = 1; // Adjust this based on your system's characteristics
+let cacheMissPenalty = 10; // Adjust this based on your system's characteristics
 let cache = [];
 
 // window.addEventListener('load', initializeCache());
@@ -67,30 +71,32 @@ function fullSimulateCache() {
   if (cache.length === 0) {
     initializeCache();
   }
-
-  let sequenceLength = sequence.length;
-  let cacheHits = 0;
-  let cacheMisses = 0;
-
-  for (let i = 0; i < sequenceLength; i++) {
-    const memoryBlock = sequence[i];
-    const cacheBlock = getCacheBlock(cache, memoryBlock);
-
-    if (cacheBlock !== null && cacheBlock.valid && cacheBlock.tag === memoryBlock) {
-      // Cache hit
-      cacheHits++;
-    } else {
-      // Cache miss
-      cacheMisses++;
-      replaceCacheBlock(cache, memoryBlock);
-    }
+  sequenceLength = sequence.length;
+  for (i = 0; i < sequenceLength; i++) {
+    stepSimulateCache();
   }
 
-  // Update the GUI or log the results as needed
-  console.log('Cache Hits:', cacheHits);
-  console.log('Cache Misses:', cacheMisses);
+  // Calculate output values
+  const cacheHitRate = (cacheHitCount / memoryAccessCount) * 100;
+  const cacheMissRate = (cacheMissCount / memoryAccessCount) * 100;
+  const averageMemoryAccessTime = calculateAverageMemoryAccessTime();
+  const totalMemoryAccessTime = memoryAccessCount * averageMemoryAccessTime;
 
-  // TO DO: Update GUI or display the results in your preferred way
+  // Log or display the results as needed
+  console.log('Memory Access Count: ' + memoryAccessCount);
+  console.log('Cache Hit Count: ' + cacheHitCount);
+  console.log('Cache Miss Count: ' + cacheMissCount);
+  console.log('Cache Hit Rate: ' + cacheHitRate.toFixed(2) + '%');
+  console.log('Cache Miss Rate: ' + cacheMissRate.toFixed(2) + '%');
+  console.log('Average Memory Access Time: ' + averageMemoryAccessTime + ' time units');
+  console.log('Total Memory Access Time: ' + totalMemoryAccessTime + ' time units');
+}
+
+function calculateAverageMemoryAccessTime() {
+  const averageMemoryAccessTime =
+  cacheHitRate * cacheHitTime + cacheMissRate * (cacheHitTime + cacheMissPenalty);
+
+  return averageMemoryAccessTime;
 }
 
 
