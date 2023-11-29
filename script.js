@@ -67,14 +67,32 @@ function fullSimulateCache() {
   if (cache.length === 0) {
     initializeCache();
   }
-  sequenceLength = sequence.length;
-  for (i = 0; i < sequenceLength; i++) {
-    stepSimulateCache();
+
+  let sequenceLength = sequence.length;
+  let cacheHits = 0;
+  let cacheMisses = 0;
+
+  for (let i = 0; i < sequenceLength; i++) {
+    const memoryBlock = sequence[i];
+    const cacheBlock = getCacheBlock(cache, memoryBlock);
+
+    if (cacheBlock !== null && cacheBlock.valid && cacheBlock.tag === memoryBlock) {
+      // Cache hit
+      cacheHits++;
+    } else {
+      // Cache miss
+      cacheMisses++;
+      replaceCacheBlock(cache, memoryBlock);
+    }
   }
 
+  // Update the GUI or log the results as needed
+  console.log('Cache Hits:', cacheHits);
+  console.log('Cache Misses:', cacheMisses);
 
-  // TO DO: ADD CODE TO CALCULATE THE OUTPUT I.E. CACHE HITS, MISSES, ETC.
+  // TO DO: Update GUI or display the results in your preferred way
 }
+
 
 function stepSimulateCache() {
   if (cache.length === 0) {
