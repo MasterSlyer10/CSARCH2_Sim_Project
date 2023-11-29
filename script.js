@@ -76,20 +76,9 @@ function fullSimulateCache() {
     stepSimulateCache();
   }
 
-  // Calculate output values
-  const cacheHitRate = (cacheHitCount / memoryAccessCount) * 100;
-  const cacheMissRate = (cacheMissCount / memoryAccessCount) * 100;
-  const averageMemoryAccessTime = calculateAverageMemoryAccessTime();
-  const totalMemoryAccessTime = memoryAccessCount * averageMemoryAccessTime;
+  
 
-  // Log or display the results as needed
-  // console.log('Memory Access Count: ' + memoryAccessCount);
-  // console.log('Cache Hit Count: ' + cacheHitCount);
-  // console.log('Cache Miss Count: ' + cacheMissCount);
-  // console.log('Cache Hit Rate: ' + cacheHitRate.toFixed(2) + '%');
-  // console.log('Cache Miss Rate: ' + cacheMissRate.toFixed(2) + '%');
-  // console.log('Average Memory Access Time: ' + averageMemoryAccessTime + ' time units');
-  // console.log('Total Memory Access Time: ' + totalMemoryAccessTime + ' time units');
+
   updateValues();
 }
 
