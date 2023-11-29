@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link type="text/css" rel="stylesheet" href="style.css">
+
+  <title>Simulation</title>
+</head>
+<body>
+    <div id="leftPanel">
+      <h1>Simulation Project</h1>
+      <div id="simInformation" class="container">
+        <p>Cache blocks = 32 blocks</p>
+        <p>Cache line = 16 words</p>
+        <p>Read Policy: Non Load-through</p>
+      </div>
+      <div id="simInputs">
+        <div id="memoryBlockContainer">
+          <div id="memoryBlockInputLabel" class="container memory-block-input">
+            # of Memory Blocks
+          </div>
+          <input id="memoryBlockInput" class="container memory-block-input" type="text" min="1" max="100" value="1">
+        </div>
+        <div id="sequenceSelectorContainer">
+          <button id="sequentialSequenceButton" class="container sequence-selector-button">Sequential</button>
+          <button id="randomSequenceButton" class="container sequence-selector-button">Random</button>
+          <button id="midRepeatSequenceButton" class="container sequence-selector-button">Mid-repeat</button>
+        </div>
+      </div>
+      <div id="runButtons">
+        <button id="runStep" class="container run-button">Next Step</button>
+        <button id="runFinal" class="container run-button">Final</button>
+      </div>
+    </div>
+  
+    <div id="midPanel">
+      <div id="sequenceDisplayContainer" class="container">
+        <span>Sequence</span>
+        <div id="sequenceDisplay">
+          <div id="line">
+          </div>
+          <a id="current"></a>
+        </div>
+      </div>
+      <div id="hitMissTableContainer" class="container">
+
+      </div>
+      <div id="resultsDisplayContainer" class="container">
+
+      </div>
+    </div>
+
+    <div id="rightPanel">
+      <div id="cacheSnapshotContainer" class="container">
+        <div id="heading">
+          <div id="setHeading" class="table-header">Set</div>
+          <div id="blockHeading" class="table-header">Block</div>
+          <div id="ageHeading" class="table-header">Age</div>
+          <div id="storeHeading" class="table-header">Store</div>
+          <div id="blockHeading" class="table-header">Block</div>
+          <div id="ageHeading" class="table-header">Age</div>
+          <div id="storeHeading" class="table-header">Store</div>
+        </div>
+      </div>
+    </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
