@@ -1,3 +1,5 @@
+https://masterslyer10.github.io/CSARCH2_Sim_Project/
+
 # Cache Simulation System
 This repository contains a cache simulation system implemented in JavaScript. The system is designed to simulate the behavior of a cache memory with a 4-way set-associative (4-way BSA) architecture.The cache simulation system includes functions for initializing the cache, simulating cache behavior, updating cache values, and calculating cache hit rate, cache miss rate, average memory access time, and total memory access time. The cache is represented as a 8 x 4 array, with each block in the cache having properties such as validity, age, and tag.
 The system also includes a graphical user interface (GUI) for interacting with the cache simulation, such as buttons for running the simulation, clearing the cache, and updating the cache values.
